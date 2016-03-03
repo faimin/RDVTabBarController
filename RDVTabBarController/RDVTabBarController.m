@@ -57,6 +57,11 @@
     
     [self setTabBarHidden:self.isTabBarHidden animated:NO];
 }
+-(void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    [self setTabBarHidden:self.isTabBarHidden animated:NO];
+
+}
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return self.selectedViewController.preferredStatusBarStyle;
@@ -200,7 +205,7 @@
             tabBarHeight = 49;
         }
         
-        if (!hidden) {
+        if (!weakSelf.tabBarHidden) {
             tabBarStartingY = viewSize.height - tabBarHeight;
             if (![[weakSelf tabBar] isTranslucent]) {
                 contentViewHeight -= ([[weakSelf tabBar] minimumContentHeight] ?: tabBarHeight);
@@ -213,7 +218,7 @@
     };
     
     void (^completion)(BOOL) = ^(BOOL finished){
-        if (hidden) {
+        if (weakSelf.tabBarHidden) {
             [[weakSelf tabBar] setHidden:YES];
         }
     };
